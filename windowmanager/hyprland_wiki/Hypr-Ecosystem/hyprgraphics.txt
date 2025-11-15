@@ -1,0 +1,11 @@
+---
+[LLM-Context-Metadata]
+Source-URL: https://wiki.hypr.land/Hypr-Ecosystem/hyprgraphics
+Scrape-Date: 2025-11-16T04:00:59.623806
+CSS-Selector-Used: .content
+---
+
+hyprgraphics
+
+hyprgraphics is a library providing shared implementations of some utilities relating to graphics
+and resources, like loading images or color calculations.

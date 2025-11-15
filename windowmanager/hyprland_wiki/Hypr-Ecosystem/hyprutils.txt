@@ -1,0 +1,10 @@
+---
+[LLM-Context-Metadata]
+Source-URL: https://wiki.hypr.land/Hypr-Ecosystem/hyprutils
+Scrape-Date: 2025-11-16T04:00:53.128980
+CSS-Selector-Used: .content
+---
+
+hyprutils
+
+hyprutils is a library providing shared implementations of commonly used types across the hypr* ecosystem.

@@ -1,0 +1,11 @@
+---
+[LLM-Context-Metadata]
+Source-URL: https://wiki.hypr.land/Hypr-Ecosystem/hyprsysteminfo
+Scrape-Date: 2025-11-16T04:00:39.272375
+CSS-Selector-Used: .content
+---
+
+hyprsysteminfo
+
+hyprsysteminfo is a small GUI application to display your system information,
+as well as easily copy the hyprland version or system info to your clipboard.

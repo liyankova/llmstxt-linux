@@ -1,0 +1,20 @@
+---
+[LLM-Context-Metadata]
+Source-URL: https://wiki.hypr.land/Getting-Started/
+Scrape-Date: 2025-11-16T03:57:31.793753
+CSS-Selector-Used: .content
+---
+
+Getting Started
+
+If you are coming to Hyprland for the first time, read the
+
+Installation
+
+page.
+
+After you’ve installed Hyprland, read the
+
+Master tutorial
+
+.

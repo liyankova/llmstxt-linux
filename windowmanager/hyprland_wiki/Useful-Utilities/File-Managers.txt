@@ -1,0 +1,76 @@
+---
+[LLM-Context-Metadata]
+Source-URL: https://wiki.hypr.land/Useful-Utilities/File-Managers/
+Scrape-Date: 2025-11-16T03:59:29.074862
+CSS-Selector-Used: .content
+---
+
+File Managers
+
+GUI
+
+dolphin
+
+: File manager by KDE.
+
+nautilus
+
+: File manager by Gnome.
+
+nautilus-admin-gtk4
+
+: Open files with elevated privileges.
+
+nautilus-image-converter
+
+: Resize and rotate images.
+
+nautilus-open-any-terminal
+
+: Open terminals in selected directory.
+
+nemo
+
+: File manager by Cinnamon.
+
+nemo-fileroller
+
+: File archiver extension.
+
+nemo-terminal
+
+: Embedded terminal window.
+
+pcmanfm-qt
+
+: File manager by LXQt.
+
+pcmanfm
+
+: File manager by LXDE.
+
+thunar
+
+: File manager by XFCE.
+
+TUI
+
+lf
+
+: A filemanager heavily inspired by ranger written in Go.
+
+nnn
+
+: n³ The Unorthodox terminal file manager.
+
+ranger
+
+: A VIM-inspired filemanager for the console.
+
+superfile
+
+: Pretty fancy and modern terminal file manager.
+
+yazi
+
+: Blazing fast terminal file manager written in Rust, based on async I/O.

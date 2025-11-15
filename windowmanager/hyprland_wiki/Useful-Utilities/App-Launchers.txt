@@ -1,0 +1,99 @@
+---
+[LLM-Context-Metadata]
+Source-URL: https://wiki.hypr.land/Useful-Utilities/App-Launchers/
+Scrape-Date: 2025-11-16T03:59:21.405414
+CSS-Selector-Used: .content
+---
+
+App launchers
+
+Hyprlauncher
+
+Hyprlauncher is a first-party multipurpose and versatile launcher / picker for Hyprland.
+
+GitHub
+
+Wofi
+
+Wofi is a GTK-based customizable launcher for Wayland.
+
+SourceHut
+
+.
+
+Rofi
+
+Rofi, a window switcher, application launcher and
+
+dmenu
+
+replacement. supports Wayland since 2025.
+
+GitHub
+
+.
+
+bemenu
+
+bemenu is a Wayland-native replacement for dmenu.
+
+GitHub
+
+.
+
+fuzzel
+
+Fuzzel is an application launcher for wlroots-based Wayland compositors, similar
+to rofi’s
+
+drun
+
+mode.
+
+Codeberg
+
+tofi
+
+tofi is an extremely fast and simple yet highly customizable dmenu / rofi
+replacement for wlroots-based Wayland compositors. When configured correctly,
+tofi can get on screen within a single frame.
+
+GitHub
+
+Emacs
+
+If you are already running an emacs server you can use Emacs.
+
+For the config you can check out
+
+DistroTube’s Configuring Emacs
+
+or
+
+Sebastian Wae’s
+
+app-launcher
+
+repositories.
+
+Anyrun
+
+Anyrun is a Wayland-native krunner-like runner, made with customizability in
+mind. It is modular and extensible through plugins. It can be used as an app
+launcher with its Applications Plugin.
+
+GitHub
+
+Walker
+
+Walker is an extensible Wayland-native runner with various built-in modules
+(applications, runner, hyprland windows, websearch [as of 2024-03-15]). It can
+be run as a service for faster startups.
+
+GitHub
+
+For a more comprehensive list of launchers, check
+
+awesome-hyprland
+
+.

@@ -1,0 +1,58 @@
+---
+[LLM-Context-Metadata]
+Source-URL: https://wiki.hypr.land/Hypr-Ecosystem/
+Scrape-Date: 2025-11-16T03:57:22.992083
+CSS-Selector-Used: .content
+---
+
+Hypr Ecosystem
+
+This wiki section hosts docs for various hypr* projects. See a list here:
+
+Note
+
+These docs always target latest -git branch of respective apps.
+
+Wiki pages
+
+Apps/utilities for the user
+
+hyprpaper
+
+hyprpicker
+
+hyprlauncher
+
+hypridle
+
+hyprlock
+
+xdg-desktop-portal-hyprland
+
+hyprsysteminfo
+
+hyprsunset
+
+hyprpolkitagent
+
+hyprland-qt-support
+
+hyprqt6engine
+
+Libraries and other utilities
+
+hyprtoolkit
+
+hyprcursor
+
+hyprutils
+
+hyprlang
+
+hyprwayland-scanner
+
+aquamarine
+
+hyprgraphics
+
+hyprland-qtutils

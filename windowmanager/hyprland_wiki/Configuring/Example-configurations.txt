@@ -1,0 +1,49 @@
+---
+[LLM-Context-Metadata]
+Source-URL: https://wiki.hypr.land/Configuring/Example-configurations/
+Scrape-Date: 2025-11-16T03:58:26.884542
+CSS-Selector-Used: .content
+---
+
+Example configurations
+
+This page houses links to a few repositories with beautiful Hyprland
+configurations for you to get inspired from or learn how to configure Hyprland
+from a more tangible example.
+
+Warning
+
+These configurations are popular and have many people using them. PRs that add
+more configurations will not be merged.
+
+end_4 (illogical-impulse)
+
+https://github.com/end-4/dots-hyprland
+
+Stephan Raabe (ML4W)
+
+https://github.com/mylinuxforwork/dotfiles
+
+fufexan
+
+https://github.com/fufexan/dotfiles
+
+linuxmobile
+
+https://github.com/linuxmobile/hyprland-dots
+
+flick0
+
+https://github.com/flick0/dotfiles
+
+iamverysimp1e
+
+https://github.com/1amSimp1e/dots
+
+notusknot
+
+https://github.com/notusknot/dotfiles-nix
+
+coffebar
+
+https://github.com/coffebar/dotfiles
