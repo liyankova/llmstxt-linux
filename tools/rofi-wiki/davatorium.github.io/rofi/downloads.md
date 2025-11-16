@@ -1,0 +1,66 @@
+---
+source_url: "https://davatorium.github.io/rofi/downloads/"
+title: "Downloads - Rofi Documentation"
+crawl_date: "2025-11-16T15:10:46.149825Z"
+selector: "article"
+---
+
+# Downloads - Rofi Documentation
+
+# Downloads
+
+## Development
+
+For development no tarball is released. Please follow the
+[Installation](../INSTALL/) instructions for obtaining and compiling
+development version.
+
+## [1.7.9](https://github.com/davatorium/rofi/releases/tag/1.7.9)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.9/rofi-1.7.9.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.9/rofi-1.7.9.tar.xz)
+
+## [1.7.8](https://github.com/davatorium/rofi/releases/tag/1.7.8)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.8/rofi-1.7.8.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.8/rofi-1.7.8.tar.xz)
+
+## [1.7.7](https://github.com/davatorium/rofi/releases/tag/1.7.7)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.7/rofi-1.7.7.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.7/rofi-1.7.7.tar.xz)
+
+## [1.7.6](https://github.com/davatorium/rofi/releases/tag/1.7.6)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.6/rofi-1.7.6.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.6/rofi-1.7.6.tar.xz)
+
+## [1.7.5](https://github.com/davatorium/rofi/releases/tag/1.7.5)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.5/rofi-1.7.5.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.5/rofi-1.7.5.tar.xz)
+
+## [1.7.4](https://github.com/davatorium/rofi/releases/tag/1.7.4)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.4/rofi-1.7.4.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.4/rofi-1.7.4.tar.xz)
+
+## [1.7.3](https://github.com/davatorium/rofi/releases/tag/1.7.3)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.3/rofi-1.7.3.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.3/rofi-1.7.3.tar.xz)
+
+## [1.7.2](https://github.com/davatorium/rofi/releases/tag/1.7.2)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.2/rofi-1.7.2.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.2/rofi-1.7.2.tar.xz)
+
+## [1.7.1](https://github.com/davatorium/rofi/releases/tag/1.7.1)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.1/rofi-1.7.1.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.1/rofi-1.7.1.tar.xz)
+
+## [1.7.0](https://github.com/davatorium/rofi/releases/tag/1.7.0)
+
+* [tar.gz](https://github.com/davatorium/rofi/releases/download/1.7.0/rofi-1.7.0.tar.gz)
+* [tar.xz](https://github.com/davatorium/rofi/releases/download/1.7.0/rofi-1.7.0.tar.xz)
