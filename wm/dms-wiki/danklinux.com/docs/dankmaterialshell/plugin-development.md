@@ -1,0 +1,794 @@
+---
+source_url: "https://danklinux.com/docs/dankmaterialshell/plugin-development"
+title: "Development | Dank Linux"
+crawl_date: "2025-11-16T08:43:16.848126Z"
+selector: "article"
+---
+
+# Development | Dank Linux
+
+* DankMaterialShell (dms)
+* Plugins
+* Development
+
+On this page
+
+```
+██████╗ ███████╗██╗   ██╗
+██╔══██╗██╔════╝██║   ██║
+██║  ██║█████╗  ██║   ██║
+██║  ██║██╔══╝  ╚██╗ ██╔╝
+██████╔╝███████╗ ╚████╔╝
+╚═════╝ ╚══════╝  ╚═══╝
+```
+
+Build and ship plugins for DankMaterialShell. This guide covers the actual patterns and components you'll use, with real working examples from the plugin library.
+
+## Quick Start[​](#quick-start "Direct link to Quick Start")
+
+### 1. Create Plugin Directory[​](#1-create-plugin-directory "Direct link to 1. Create Plugin Directory")
+
+```
+mkdir -p ~/.config/DankMaterialShell/plugins/MyPlugin  
+cd ~/.config/DankMaterialShell/plugins/MyPlugin
+```
+
+### 2. Create Manifest[​](#2-create-manifest "Direct link to 2. Create Manifest")
+
+Save this as `plugin.json`:
+
+```
+{  
+  "id": "myPlugin",  
+  "name": "My Plugin",  
+  "description": "What this plugin does",  
+  "version": "1.0.0",  
+  "author": "Your Name",  
+  "icon": "widgets",  
+  "type": "widget",  
+  "component": "./MyWidget.qml",  
+  "settings": "./MySettings.qml",  
+  "permissions": ["settings_read", "settings_write"]  
+}
+```
+
+### 3. Create Widget Component[​](#3-create-widget-component "Direct link to 3. Create Widget Component")
+
+Save this as `MyWidget.qml`:
+
+```
+import QtQuick  
+import qs.Common  
+import qs.Services  
+import qs.Widgets  
+import qs.Modules.Plugins  
+  
+PluginComponent {  
+    id: root  
+  
+    property string displayText: pluginData.displayText || "Hello"  
+  
+    horizontalBarPill: Component {  
+        Row {  
+            spacing: Theme.spacingS  
+  
+            DankIcon {  
+                name: "widgets"  
+                size: Theme.iconSize  
+                color: Theme.primary  
+                anchors.verticalCenter: parent.verticalCenter  
+            }  
+  
+            StyledText {  
+                text: root.displayText  
+                font.pixelSize: Theme.fontSizeMedium  
+                color: Theme.surfaceText  
+                anchors.verticalCenter: parent.verticalCenter  
+            }  
+        }  
+    }  
+  
+    verticalBarPill: Component {  
+        Column {  
+            spacing: Theme.spacingXS  
+  
+            DankIcon {  
+                name: "widgets"  
+                size: Theme.iconSize  
+                color: Theme.primary  
+                anchors.horizontalCenter: parent.horizontalCenter  
+            }  
+  
+            StyledText {  
+                text: root.displayText  
+                font.pixelSize: Theme.fontSizeSmall  
+                color: Theme.surfaceText  
+                anchors.horizontalCenter: parent.horizontalCenter  
+            }  
+        }  
+    }  
+}
+```
+
+### 4. Create Settings Component[​](#4-create-settings-component "Direct link to 4. Create Settings Component")
+
+Save this as `MySettings.qml`:
+
+```
+import QtQuick  
+import qs.Common  
+import qs.Modules.Plugins  
+import qs.Widgets  
+  
+PluginSettings {  
+    id: root  
+    pluginId: "myPlugin"  
+  
+    StyledText {  
+        width: parent.width  
+        text: "My Plugin Settings"  
+        font.pixelSize: Theme.fontSizeLarge  
+        font.weight: Font.Bold  
+        color: Theme.surfaceText  
+    }  
+  
+    StyledText {  
+        width: parent.width  
+        text: "Configure your plugin here"  
+        font.pixelSize: Theme.fontSizeSmall  
+        color: Theme.surfaceVariantText  
+        wrapMode: Text.WordWrap  
+    }  
+  
+    StringSetting {  
+        settingKey: "displayText"  
+        label: "Display Text"  
+        description: "Text shown in the bar"  
+        placeholder: "Enter text"  
+        defaultValue: "Hello"  
+    }  
+}
+```
+
+### 5. Load It[​](#5-load-it "Direct link to 5. Load It")
+
+1. Open DMS Settings → Plugins
+2. Click "Scan for Plugins"
+3. Toggle your plugin on
+4. Add to DankBar widget list
+5. Restart shell: `dms restart`
+
+You now have a working plugin.
+
+## Widget Plugins[​](#widget-plugins "Direct link to Widget Plugins")
+
+Widget plugins show up in DankBar or the Control Center. They use `PluginComponent` as the base.
+
+### DankBar Widget[​](#dankbar-widget "Direct link to DankBar Widget")
+
+Here's a real color display widget:
+
+```
+import QtQuick  
+import qs.Common  
+import qs.Services  
+import qs.Widgets  
+import qs.Modules.Plugins  
+  
+PluginComponent {  
+    id: root  
+  
+    property color customColor: pluginData.customColor || Theme.primary  
+  
+    horizontalBarPill: Component {  
+        Row {  
+            spacing: Theme.spacingS  
+  
+            Rectangle {  
+                width: 20  
+                height: 20  
+                radius: 4  
+                color: root.customColor  
+                border.color: Theme.outlineStrong  
+                border.width: 1  
+                anchors.verticalCenter: parent.verticalCenter  
+            }  
+  
+            StyledText {  
+                text: root.customColor.toString()  
+                font.pixelSize: Theme.fontSizeSmall  
+                color: Theme.surfaceText  
+                anchors.verticalCenter: parent.verticalCenter  
+            }  
+        }  
+    }  
+  
+    verticalBarPill: Component {  
+        Column {  
+            spacing: Theme.spacingXS  
+  
+            Rectangle {  
+                width: 20  
+                height: 20  
+                radius: 4  
+                color: root.customColor  
+                border.color: Theme.outlineStrong  
+                border.width: 1  
+                anchors.horizontalCenter: parent.horizontalCenter  
+            }  
+  
+            StyledText {  
+                text: root.customColor.toString()  
+                font.pixelSize: Theme.fontSizeSmall  
+                color: Theme.surfaceText  
+                anchors.horizontalCenter: parent.horizontalCenter  
+            }  
+        }  
+    }  
+}
+```
+
+The widget pulls `customColor` from `pluginData`, which automatically syncs with your settings. No manual loading needed.
+
+### Widget with Popout[​](#widget-with-popout "Direct link to Widget with Popout")
+
+Add a popout menu that opens when you click the widget.
+
+To add a layer namespace to your plugin, just add `layerNamespacePlugin: "<namespace for your plugin>"` like below.
+Make sure to only type what you want the namespace to be and to not add a prefix (like `dms:` or `dms-plugin:` for example) since the shell will add `dms-plugin:` as a prefix automatically.
+For example, the namespace of the plugin below will be `dms-plugin:emoji-launcher`.
+
+While you don't have to add a layer namespace to you widget (it will fallback to `dms-plugin:plugin`), it's prefered to do so.
+
+warning
+
+As of right now, layer namespace only work with popout widget plugins.
+
+```
+PluginComponent {  
+    id: root  
+  
+    layerNamespacePlugin: "emoji-launcher"  
+  
+    property var displayedEmojis: ["😊", "😢", "❤️"]  
+  
+    horizontalBarPill: Component {  
+        Row {  
+            spacing: Theme.spacingXS  
+            Repeater {  
+                model: root.displayedEmojis  
+                StyledText {  
+                    text: modelData  
+                    font.pixelSize: Theme.fontSizeLarge  
+                }  
+            }  
+        }  
+    }  
+  
+    verticalBarPill: Component {  
+        Column {  
+            spacing: Theme.spacingXS  
+            Repeater {  
+                model: root.displayedEmojis  
+                StyledText {  
+                    text: modelData  
+                    font.pixelSize: Theme.fontSizeMedium  
+                    anchors.horizontalCenter: parent.horizontalCenter  
+                }  
+            }  
+        }  
+    }  
+  
+    popoutContent: Component {  
+        PopoutComponent {  
+            id: popoutColumn  
+  
+            headerText: "Emoji Picker"  
+            detailsText: "Click an emoji to copy it"  
+            showCloseButton: true  
+  
+            property var allEmojis: [  
+                "😀", "😃", "😄", "😁", "😆", "🤣",  
+                "❤️", "🧡", "💛", "💚", "💙", "💜"  
+            ]  
+  
+            Item {  
+                width: parent.width  
+                implicitHeight: root.popoutHeight - popoutColumn.headerHeight -  
+                               popoutColumn.detailsHeight - Theme.spacingXL  
+  
+                DankGridView {  
+                    anchors.fill: parent  
+                    cellWidth: 50  
+                    cellHeight: 50  
+                    model: popoutColumn.allEmojis  
+  
+                    delegate: StyledRect {  
+                        width: 45  
+                        height: 45  
+                        radius: Theme.cornerRadius  
+                        color: emojiMouse.containsMouse ?  
+                               Theme.surfaceContainerHighest :  
+                               Theme.surfaceContainerHigh  
+  
+                        StyledText {  
+                            anchors.centerIn: parent  
+                            text: modelData  
+                            font.pixelSize: Theme.fontSizeXLarge  
+                        }  
+  
+                        MouseArea {  
+                            id: emojiMouse  
+                            anchors.fill: parent  
+                            hoverEnabled: true  
+                            cursorShape: Qt.PointingHandCursor  
+  
+                            onClicked: {  
+                                Quickshell.execDetached(["sh", "-c",  
+                                    "echo -n '" + modelData + "' | wl-copy"])  
+                                ToastService.showInfo("Copied " + modelData)  
+                                popoutColumn.closePopout()  
+                            }  
+                        }  
+                    }  
+                }  
+            }  
+        }  
+    }  
+  
+    popoutWidth: 400  
+    popoutHeight: 500  
+}
+```
+
+The `PopoutComponent` helper gives you consistent header/footer and a `closePopout()` function.
+
+### Control Center Widget[​](#control-center-widget "Direct link to Control Center Widget")
+
+Add a toggle to the Control Center:
+
+```
+PluginComponent {  
+    id: root  
+  
+    property bool isEnabled: pluginData.isEnabled || false  
+    property int clickCount: pluginData.clickCount || 0  
+  
+    ccWidgetIcon: isEnabled ? "toggle_on" : "toggle_off"  
+    ccWidgetPrimaryText: "Example Toggle"  
+    ccWidgetSecondaryText: isEnabled ? `Active • ${clickCount} clicks` : "Inactive"  
+    ccWidgetIsActive: isEnabled  
+  
+    onCcWidgetToggled: {  
+        isEnabled = !isEnabled  
+        clickCount += 1  
+        if (pluginService) {  
+            pluginService.savePluginData(pluginId, "isEnabled", isEnabled)  
+            pluginService.savePluginData(pluginId, "clickCount", clickCount)  
+        }  
+        ToastService.showInfo(isEnabled ? "Enabled" : "Disabled")  
+    }  
+  
+    horizontalBarPill: Component {  
+        Row {  
+            DankIcon {  
+                name: root.isEnabled ? "toggle_on" : "toggle_off"  
+                color: root.isEnabled ? Theme.primary : Theme.surfaceVariantText  
+            }  
+            StyledText {  
+                text: `${root.clickCount} clicks`  
+                color: Theme.surfaceText  
+            }  
+        }  
+    }  
+  
+    verticalBarPill: Component {  
+        Column {  
+            DankIcon {  
+                name: root.isEnabled ? "toggle_on" : "toggle_off"  
+                color: root.isEnabled ? Theme.primary : Theme.surfaceVariantText  
+                anchors.horizontalCenter: parent.horizontalCenter  
+            }  
+            StyledText {  
+                text: `${root.clickCount}`  
+                color: Theme.surfaceText  
+                anchors.horizontalCenter: parent.horizontalCenter  
+            }  
+        }  
+    }  
+}
+```
+
+Set `ccWidgetIcon`, `ccWidgetPrimaryText`, `ccWidgetSecondaryText`, and `ccWidgetIsActive`. Handle `onCcWidgetToggled` for toggle clicks.
+
+## Daemon Plugins[​](#daemon-plugins "Direct link to Daemon Plugins")
+
+Daemon plugins run in the background without UI. They monitor events, automate tasks, or provide services.
+
+Here's a daemon that runs a script whenever the wallpaper changes:
+
+```
+import QtQuick  
+import Quickshell  
+import Quickshell.Io  
+import qs.Common  
+import qs.Services  
+import qs.Modules.Plugins  
+  
+PluginComponent {  
+    id: root  
+  
+    property string scriptPath: pluginData.scriptPath || ""  
+  
+    Connections {  
+        target: SessionData  
+        function onWallpaperPathChanged() {  
+            if (scriptPath && scriptPath !== "") {  
+                var process = scriptProcessComponent.createObject(root, {  
+                    wallpaperPath: SessionData.wallpaperPath  
+                })  
+                process.running = true  
+            }  
+        }  
+    }  
+  
+    Component {  
+        id: scriptProcessComponent  
+  
+        Process {  
+            property string wallpaperPath: ""  
+            command: [scriptPath, wallpaperPath]  
+  
+            stdout: SplitParser {  
+                onRead: line => console.log("Script:", line)  
+            }  
+  
+            stderr: SplitParser {  
+                onRead: line => {  
+                    if (line.trim()) {  
+                        ToastService.showError("Script error", line)  
+                    }  
+                }  
+            }  
+  
+            onExited: (exitCode) => {  
+                if (exitCode !== 0) {  
+                    ToastService.showError("Script failed", "Exit code: " + exitCode)  
+                }  
+                destroy()  
+            }  
+        }  
+    }  
+  
+    Component.onCompleted: {  
+        console.info("Wallpaper watcher daemon started")  
+    }  
+}
+```
+
+Daemon manifest uses `"type": "daemon"`:
+
+```
+{  
+  "id": "wallpaperWatcher",  
+  "type": "daemon",  
+  "component": "./WallpaperWatcher.qml"  
+}
+```
+
+## Launcher Plugins[​](#launcher-plugins "Direct link to Launcher Plugins")
+
+Launcher plugins add items to the Spotlight search. They're a bit different - they use a plain `Item` instead of `PluginComponent`.
+
+```
+import QtQuick  
+import Quickshell  
+import qs.Services  
+  
+Item {  
+    id: root  
+  
+    property var pluginService: null  
+    property string trigger: "#"  
+  
+    signal itemsChanged()  
+  
+    Component.onCompleted: {  
+        if (pluginService) {  
+            trigger = pluginService.loadPluginData("emojiLauncher", "trigger", "#")  
+        }  
+    }  
+  
+    function getItems(query) {  
+        const emojis = [  
+            {  
+                name: "Smile",  
+                icon: "unicode:😊",  
+                comment: "Smiling face",  
+                action: "copy:😊",  
+                categories: ["Emoji"]  
+            },  
+            {  
+                name: "Heart",  
+                icon: "unicode:❤️",  
+                comment: "Red heart",  
+                action: "copy:❤️",  
+                categories: ["Emoji"]  
+            }  
+        ]  
+  
+        if (!query || query.length === 0) {  
+            return emojis  
+        }  
+  
+        const lowerQuery = query.toLowerCase()  
+        return emojis.filter(item =>  
+            item.name.toLowerCase().includes(lowerQuery) ||  
+            item.comment.toLowerCase().includes(lowerQuery)  
+        )  
+    }  
+  
+    function executeItem(item) {  
+        if (!item || !item.action) return  
+  
+        const [actionType, ...rest] = item.action.split(":")  
+        const actionData = rest.join(":")  
+  
+        switch (actionType) {  
+            case "copy":  
+                Quickshell.execDetached(["sh", "-c",  
+                    "echo -n '" + actionData + "' | wl-copy"])  
+                ToastService.showInfo("Copied to clipboard")  
+                break  
+            case "toast":  
+                ToastService.showInfo(item.name, actionData)  
+                break  
+        }  
+    }  
+  
+    onTriggerChanged: {  
+        if (pluginService) {  
+            pluginService.savePluginData("emojiLauncher", "trigger", trigger)  
+        }  
+    }  
+}
+```
+
+Launcher manifest needs `"type": "launcher"` and a `"trigger"`:
+
+```
+{  
+  "id": "emojiLauncher",  
+  "type": "launcher",  
+  "trigger": "#",  
+  "component": "./EmojiLauncher.qml"  
+}
+```
+
+**Icon formats**:
+
+* Material Design: `"material:icon_name"` or just `"icon_name"`
+* Unicode/Emoji: `"unicode:🚀"`
+
+**Action formats**:
+
+* Copy to clipboard: `"copy:text"`
+* Show toast: `"toast:message"`
+* Run script: `"script:command args"`
+
+## Plugin Settings[​](#plugin-settings "Direct link to Plugin Settings")
+
+Use `PluginSettings` as the base and drop in setting components. They handle all the loading and saving automatically.
+
+```
+import QtQuick  
+import qs.Common  
+import qs.Modules.Plugins  
+import qs.Widgets  
+  
+PluginSettings {  
+    id: root  
+    pluginId: "colorDemo"  
+  
+    StyledText {  
+        width: parent.width  
+        text: "Color Demo Settings"  
+        font.pixelSize: Theme.fontSizeLarge  
+        font.weight: Font.Bold  
+        color: Theme.surfaceText  
+    }  
+  
+    StyledText {  
+        width: parent.width  
+        text: "Pick colors for your widget"  
+        font.pixelSize: Theme.fontSizeSmall  
+        color: Theme.surfaceVariantText  
+        wrapMode: Text.WordWrap  
+    }  
+  
+    ColorSetting {  
+        settingKey: "customColor"  
+        label: "Widget Color"  
+        description: "Color shown in the bar"  
+        defaultValue: Theme.primary  
+    }  
+  
+    SliderSetting {  
+        settingKey: "updateInterval"  
+        label: "Update Speed"  
+        description: "How often to refresh"  
+        defaultValue: 60  
+        minimum: 10  
+        maximum: 300  
+        unit: "sec"  
+    }  
+  
+    ToggleSetting {  
+        settingKey: "showInBar"  
+        label: "Show in Bar"  
+        description: "Display widget in DankBar"  
+        defaultValue: true  
+    }  
+  
+    StringSetting {  
+        settingKey: "apiKey"  
+        label: "API Key"  
+        description: "Your service API key"  
+        placeholder: "Enter key"  
+        defaultValue: ""  
+    }  
+  
+    SelectionSetting {  
+        settingKey: "theme"  
+        label: "Theme"  
+        description: "Widget appearance"  
+        options: [  
+            {label: "Light", value: "light"},  
+            {label: "Dark", value: "dark"},  
+            {label: "Auto", value: "auto"}  
+        ]  
+        defaultValue: "dark"  
+    }  
+}
+```
+
+The setting components available:
+
+* `ColorSetting` - Opens color picker modal
+* `SliderSetting` - Numeric slider
+* `ToggleSetting` - Boolean switch
+* `StringSetting` - Text input
+* `SelectionSetting` - Dropdown menu
+
+Access settings in your widget via `pluginData`:
+
+```
+property color customColor: pluginData.customColor || Theme.primary  
+property int updateInterval: pluginData.updateInterval || 60  
+property bool showInBar: pluginData.showInBar !== undefined ? pluginData.showInBar : true  
+property string apiKey: pluginData.apiKey || ""  
+property string theme: pluginData.theme || "dark"
+```
+
+## Common Patterns[​](#common-patterns "Direct link to Common Patterns")
+
+### Auto-injected Properties[​](#auto-injected-properties "Direct link to Auto-injected Properties")
+
+`PluginComponent` automatically provides these properties - don't declare them yourself:
+
+* `pluginData` - Reactive settings object
+* `pluginService` - Service for manual data operations
+* `pluginId` - Your plugin's ID
+* `axis` - Bar axis info
+* `section` - "left", "center", or "right"
+* `parentScreen` - Screen reference
+* `widgetThickness` - Widget height/width
+* `barThickness` - Bar height/width
+* `variants` - Variant instances
+
+### Saving Data Manually[​](#saving-data-manually "Direct link to Saving Data Manually")
+
+Most of the time `pluginData` handles everything, but if you need to save manually:
+
+```
+if (pluginService) {  
+    pluginService.savePluginData(pluginId, "key", value)  
+}
+```
+
+### Showing Notifications[​](#showing-notifications "Direct link to Showing Notifications")
+
+```
+ToastService.showInfo("Title", "Message")  
+ToastService.showError("Title", "Error message")
+```
+
+### Copying to Clipboard[​](#copying-to-clipboard "Direct link to Copying to Clipboard")
+
+```
+Quickshell.execDetached(["sh", "-c", "echo -n 'text' | wl-copy"])
+```
+
+### Timers[​](#timers "Direct link to Timers")
+
+```
+PluginComponent {  
+    Timer {  
+        interval: 1000  
+        running: true  
+        repeat: true  
+        onTriggered: {  
+            // Do something every second  
+        }  
+    }  
+}
+```
+
+## Plugin Manifest Reference[​](#plugin-manifest-reference "Direct link to Plugin Manifest Reference")
+
+### Required Fields[​](#required-fields "Direct link to Required Fields")
+
+```
+{  
+  "id": "pluginId",  
+  "name": "Plugin Name",  
+  "description": "What it does",  
+  "version": "1.0.0",  
+  "author": "Your Name",  
+  "type": "widget",  
+  "component": "./Widget.qml"  
+}
+```
+
+### Optional Fields[​](#optional-fields "Direct link to Optional Fields")
+
+```
+{  
+  "icon": "material_icon",  
+  "settings": "./Settings.qml",  
+  "trigger": "#",  
+  "permissions": ["settings_read", "settings_write"],  
+  "requires_dms": ">=0.1.18",  
+  "requires": ["tool1", "tool2"]  
+}
+```
+
+### Plugin Types[​](#plugin-types "Direct link to Plugin Types")
+
+* `"widget"` - DankBar or Control Center widget
+* `"daemon"` - Background service
+* `"launcher"` - Spotlight extension
+
+### Permissions[​](#permissions "Direct link to Permissions")
+
+* `"settings_read"` - Read plugin settings
+* `"settings_write"` - Write plugin settings
+* `"process"` - Execute system commands
+* `"network"` - Network access
+
+## Testing[​](#testing "Direct link to Testing")
+
+1. Enable plugin: Settings → Plugins → Scan → Toggle on
+2. Add to bar: Settings → DankBar → Add widget
+3. Check console: Look for errors in shell output
+4. Reload shell: `Ctrl+Shift+R` or `dms restart`
+5. Check settings file: `~/.config/DankMaterialShell/settings.json`
+
+## Publishing[​](#publishing "Direct link to Publishing")
+
+1. Create GitHub repo
+2. Include `plugin.json`, README, screenshots
+3. Tag releases: `git tag v1.0.0 && git push --tags`
+4. Submit to registry: [dms-plugin-registry](https://github.com/AvengeMedia/dms-plugin-registry)
+
+## Examples[​](#examples "Direct link to Examples")
+
+Check the `PLUGINS/` directory in the DMS repo for real examples:
+
+* **ColorDemoPlugin** - Color picker integration
+* **ExampleEmojiPlugin** - Popout with grid view
+* **ControlCenterExample** - Control Center toggle
+* **LauncherExample** - Spotlight extension
+* **WallpaperWatcherDaemon** - Background event watcher
+
+Clone them and experiment.

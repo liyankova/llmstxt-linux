@@ -1,0 +1,186 @@
+---
+source_url: "https://danklinux.com/docs/dankmaterialshell/layers"
+title: "Layer Namespaces | Dank Linux"
+crawl_date: "2025-11-16T08:42:22.453746Z"
+selector: "article"
+---
+
+# Layer Namespaces | Dank Linux
+
+* DankMaterialShell (dms)
+* Layer Namespaces
+
+On this page
+
+Configuring blur for Wayland layer shells can be tricky since each compositor handles it differently.
+
+## Overview[​](#overview "Direct link to Overview")
+
+DMS uses Wayland's layer shell protocol for all UI components: the bar, popups, modals, OSDs, and notifications. Each component type gets its own namespace, allowing your compositor to target them individually for blur effects.
+
+Layer shell surfaces differ from regular windows—they're UI overlays positioned at specific layers (background, bottom, top, overlay). By assigning unique namespaces to each component type, you can apply blur selectively (e.g., "blur all modals" or "blur all popouts") without affecting other elements.
+
+## Component Namespaces[​](#component-namespaces "Direct link to Component Namespaces")
+
+Every component namespace starts with `dms:` followed by the rest of the namespace, DMS uses the following namespaces for layer shell components:
+
+### Modals[​](#modals "Direct link to Modals")
+
+Full-screen modal dialogs including settings, power menu, and clipboard history. These overlay the entire screen and optionally dim the background.
+
+| Component | Namespace |
+| --- | --- |
+| Clipboard history | `dms:clipboard` |
+| File browser | `dms:file-browser` |
+| Settings | `dms:settings` |
+| Spotlight | `dms:spotlight` |
+| Bluetooth pairing | `dms:bluetooth-pairing` |
+| Color picker | `dms:color-picker` |
+| Hyprkeybinds | `dms:hyprkeybinds` |
+| Network info | `dms:network-info` |
+| Network info (wired) | `dms:network-info-wired` |
+| Notification | `dms:notification-center-modal` |
+| Polkit | `dms:polkit` |
+| Power menu | `dms:power-menu` |
+| Process list | `dms:process-list-modal` |
+| Wifi password | `dms:wifi-password` |
+| Fallback namespace | `dms:modal` |
+
+### Popouts[​](#popouts "Direct link to Popouts")
+
+Popup panels triggered by bar widgets, such as the control center, app drawer, and notification center. These are anchored to the bar and slide out accordingly.
+
+| Component | Namespace |
+| --- | --- |
+| App drawer | `dms:app-launcher` |
+| Control center | `dms:control-center` |
+| Battery | `dms:battery` |
+| Vpn | `dms:vpn` |
+| DankDash | `dms:dash` |
+| Notification center | `dms:notification-center-popout` |
+| Process list | `dms:process-list-popout` |
+| Fallback namespace | `dms:popout` |
+
+### Misc Components[​](#misc-components "Direct link to Misc Components")
+
+Namespaces for other component that aren't modals or popouts.
+
+| Component | Namespace | Use |
+| --- | --- | --- |
+| DankBar | `dms:bar` | The main panel, which can be positioned at the top, bottom, left, or right edge of the screen. |
+| Dock | `dms:dock` | Application dock (optional component). |
+| Workspace overview | `dms:workspace-overview` | The workspace overview for hyprland. |
+| Notification popup | `dms:notification-popup` | Toast notifications displayed when applications request user attention. |
+| OSD | `dms:osd` | On-screen displays for volume and brightness indicators. These appear briefly to show status information and fade out automatically. |
+| Slideout | `dms:slideout` | Sliding panels from screen edges (optional component). |
+| Tooltip | `dms:tooltip` | Tooltip shown for example when hovering an app on the dock. |
+| Dock context menu | `dock-context-menu` | Context menu when right clicking an app on the dock. |
+| Toast | `dms:toast` | Toast appearing on top middle of the screen. |
+| Tray menu window | `dms:tray-menu-window` | Menu appearing when right clicking an applet in the system tray. |
+
+> If you are unsure about a component's namespace and are on Hyprland, you can run `hyprctl layers` with the layer opened.
+
+### Plugins[​](#plugins "Direct link to Plugins")
+
+By default, plugins without namespaces will fallback to `dms-plugin:plugin`, if the plugin has a specific namespaces you will have to run the command above or look at the plugin's code to know it if you do by looking at the code note the it will be `dms-plugin:` + the namespace, for example `dms-plugin:emoji-launcher`).
+
+If you're a plugin dev, see the [plugin development](/docs/dankmaterialshell/plugin-development#widget-with-popout) page to add your layer namespace.
+
+## Hyprland Example[​](#hyprland-example "Direct link to Hyprland Example")
+
+info
+
+In order to for some layer rules (such as `animation`, `blur` and `dimaround`), you will have to disable the shell's animations and dim effect.
+
+* You can disable animations in **Settings**>**Personalization**>Animation Speed\*\* and set to **None**.
+* You can disable the dim in **Theme & Colors**>**Widget Styling** and untoggle **Darken Modal Background**.
+
+### Blur Settings[​](#blur-settings "Direct link to Blur Settings")
+
+```
+decoration {  
+    blur {  
+        enabled = true  
+        size = 10  
+        passes = 4  
+  
+        ignore_opacity = true  
+        new_optimizations = true  
+        xray = false  
+  
+        noise = 0.02  
+        contrast = 1.1  
+        vibrancy = 0.2  
+        vibrancy_darkness = 0.3  
+    }  
+  
+    drop_shadow = true  
+    shadow_range = 20  
+    shadow_render_power = 3  
+    col.shadow = rgba(00000099)  
+}
+```
+
+### Layer Rules[​](#layer-rules "Direct link to Layer Rules")
+
+Add these layer rules to enable blur for DMS components:
+
+```
+# Animations  
+layerrule = animation slide right, dms:control-center  
+layerrule = animation slide top, dms:workspace-overview  
+# You can find all available animations here: https://wiki.hypr.land/Configuring/Animations/#animation-tree  
+  
+# Blur  
+# You can use regex like so to apply a rule to multiple layer  
+# You can also use variables  
+$blur_layer = dms:(color-picker|clipboard|spotlight|settings)  
+layerrule = blur, $blur_layer   
+  
+# Dim (if you prefer a dim instead of a blur effect)  
+layerrule = dimaround, $blur_layer
+```
+
+### Examples[​](#examples "Direct link to Examples")
+
+Examples
+
+#### Add a blur effect on the shell's Components[​](#add-a-blur-effect-on-the-shells-components "Direct link to Add a blur effect on the shell's Components")
+
+Lower the shell's components' opacity in **Theme & Colors**>**Widget Styling**.
+
+```
+$blur_layer = dms:(polkit|notification-center-modal|workspace-overview|color-picker|clipboard|spotlight|settings|process-list-modal)  
+layerrule = blur, $blur_layer  
+$blur_shell = dms:(bar|tooltip|toast|dock-context-menu|tray-menu-window|control-center|notification-center-popout|dash|system-update|process-list-popout|battery|popout|app-launcher)  
+layerrule = blur, $blur_shell  
+layerrule = ignorezero, $blur_shell
+```
+
+### Performance Tuning[​](#performance-tuning "Direct link to Performance Tuning")
+
+If blur is impacting system performance, try these optimizations in order:
+
+1. **Reduce passes**: Set `passes = 2` instead of 4
+2. **Reduce size**: Set `size = 6` instead of 10
+3. **Use xray mode**: Set `xray = true` to reduce blur on stacked layers
+
+You can test blur impact in real-time:
+
+```
+hyprctl keyword decoration:blur:enabled false  
+# Test performance  
+hyprctl keyword decoration:blur:enabled true
+```
+
+You can find more about Hyprland's layer rules [here](https://wiki.hypr.land/Configuring/Window-Rules/#layer-rules).
+
+## Other Compositors[​](#other-compositors "Direct link to Other Compositors")
+
+Not all compositors support blur, check the relevant compositors documentation for how to add layer-rules.
+
+DMS is compositor-agnostic—it only sets namespaces and lets the compositor handle the effects. Once you determine the appropriate layer rule syntax for your compositor, you can target the same namespaces listed above.
+
+[Niri's layer rules wiki page.](https://yalter.github.io/niri/Configuration%3A-Layer-Rules.html)
+
+[MangoWC's layer rules wiki page.](https://github.com/DreamMaoMao/mangowc/wiki#layer-rules)
