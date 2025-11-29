@@ -1,0 +1,118 @@
+You can use most stuff from the [upon](https://docs.rs/upon/latest/upon/index.html) crate, which includes:
+
+- Expressions: `{{ user.name }}`
+- Conditionals: `{% if user.enabled %} ... {% endif %}`
+- Loops: `{% for user in users %} ... {% endfor %}`
+- Nested templates: `{% include "nested" %}`
+- Arbitrary user defined filters: `{{ user.name | replace: "\t", " " }}`
+
+If you want a filter to be added, please open an issue.
+
+### Example of using a loop for all the colors:
+```
+<* for name, value in colors *>
+{{name}}: {{value.default.hex}}
+<* endfor *>
+```
+Output:
+```
+
+background: #1a120d
+
+error: #ffb4ab
+
+error_container: #93000a
+
+inverse_on_surface: #382e29
+
+inverse_primary: #8c4f27
+
+inverse_surface: #f0dfd7
+
+on_background: #f0dfd7
+
+on_error: #690005
+
+on_error_container: #ffdad6
+
+on_primary: #532200
+
+on_primary_container: #ffdbc9
+
+on_primary_fixed: #321200
+
+on_primary_fixed_variant: #6f3812
+
+on_secondary: #432b1d
+
+on_secondary_container: #ffdbc9
+
+on_secondary_fixed: #2b160a
+
+on_secondary_fixed_variant: #5c4131
+
+on_surface: #f0dfd7
+
+on_surface_variant: #d7c2b8
+
+on_tertiary: #333208
+
+on_tertiary_container: #e9e5ab
+
+on_tertiary_fixed: #1e1d00
+
+on_tertiary_fixed_variant: #4a481d
+
+outline: #9f8d84
+
+outline_variant: #52443c
+
+primary: #ffb68c
+
+primary_container: #6f3812
+
+primary_fixed: #ffdbc9
+
+primary_fixed_dim: #ffb68c
+
+scrim: #000000
+
+secondary: #e5bfaa
+
+secondary_container: #e5bfaa
+
+secondary_fixed: #ffdbc9
+
+secondary_fixed_dim: #e5bfaa
+
+shadow: #000000
+
+source_color: #ffbf9b
+
+surface: #1a120d
+
+surface_bright: #413732
+
+surface_container: #271e19
+
+surface_container_high: #312823
+
+surface_container_highest: #3d332d
+
+surface_container_low: #221a15
+
+surface_container_lowest: #140d08
+
+surface_dim: #1a120d
+
+surface_variant: #52443c
+
+tertiary: #ccc992
+
+tertiary_container: #4a481d
+
+tertiary_fixed: #e9e5ab
+
+tertiary_fixed_dim: #ccc992
+
+```
